@@ -24,7 +24,9 @@ class BaseValidate extends Validate {
 	public function goCheck() {
 		$params = request()->param();
 		if (!$this->check($params)) {
-			return $this->error;
+			throw new \app\common\exception\BaseException([
+				'msg' => is_array($this->error) ? implode(';', $this->error) : $this->error,
+			]);
 		}
 		return true;
 	}
