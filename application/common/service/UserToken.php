@@ -46,10 +46,13 @@ class UserToken extends Token {
 		} else {
 			$uid = $user->id;
 		}
-		//存入缓存 key：生成返回客户端的令牌 value：openid
+		//存入缓存 key：生成返回客户端的令牌 value：openid + uid + scope
 		$key = $this->generateToken();
+		$cache_value['openid'] = $openid;
+		$cache_value['uid'] = $uid;
+		$cache_value['scope'] = config('scope.user');
 		$expire = config('token.expire');
-		if (!cache($key, $openid, $expire)) {
+		if (!cache($key, $cache_value, $expire)) {
 			throw new Exception("缓存客户令牌时出现错误");
 		} else {
 			return $key;

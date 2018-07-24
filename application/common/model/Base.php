@@ -19,25 +19,28 @@ class Base extends Model {
 	//新增一条数据
 	public function add() {
 		$data = Request::only($this->addAllowField);
-		if($this->save($data)){
+		if ($this->save($data)) {
 			return ReturnMsg('1001');
 		}
-		throw new \app\common\exception\BaseException(['errorCode'=>'999','code'=>'400','msg'=>'数据库添加失败']);
+		throw new \app\common\exception\BaseException(['msg' => '添加失败']);
 	}
 
-	public function delete(){
+	public function delete() {
 		$id = Request::param($this->pk);
-		if($id && is_numeric($id) && $id > 0){
-			$this->where($this->pk,$id)->delete();
+		if ($id && is_numeric($id) && $id > 0) {
+			$this->where($this->pk, $id)->delete();
 			return ReturnMsg('1001');
 		}
-		throw new \app\common\exception\BaseException(['errorCode'=>'10000','code'=>'400','msg'=>'参数错误']);
+		throw new \app\common\exception\BaseException(['errorCode' => '10000', 'msg' => '参数错误']);
 	}
 
-	public function edit(){
+	public function edit() {
 		$data = Request::only($this->editAllowField);
-		if($this->save($data,[$this->pk => $data[$this->pk]]) === false){
-			throw new \app\common\exception\BaseException(['errorCode'=>'999','code'=>'400','msg'=>'更新失败']);
+		if (!isset($data[$this->pk])) {
+			throw new \app\common\exception\BaseException(['errorCode' => '10000', 'msg' => '缺失主键id']);
+		}
+		if ($this->save($data, [$this->pk => $data[$this->pk]]) === false) {
+			throw new \app\common\exception\BaseException(['msg' => '更新失败']);
 		}
 		return ReturnMsg('1001');
 	}

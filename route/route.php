@@ -19,5 +19,13 @@ Route::get('api/:version/goods/:goods_id', 'api/:version.goods/getDetailById');
 
 Route::get('api/:version/themes', 'api/:version.theme/getTheme');
 Route::get('api/:version/theme/:theme_id', 'api/:version.theme/getThemeById');
-
+// 登录，换取令牌
 Route::post('api/:version/token', 'api/:version.token/getToken');
+//获取用户信息
+Route::get('api/:version/user', 'api/:version.user/getUserInfo');
+
+Route::post('api/:version/address/add', 'api/:version.UserAddress/addNewAddr');
+Route::post('api/:version/address/edit', 'api/:version.UserAddress/editAddr');
+Route::get('api/:version/address/delete/:id', 'api/:version.UserAddress/deleteAddr');
+
+Route::post('api/:version/order/place', 'api/:version.order/place');

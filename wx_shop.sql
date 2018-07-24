@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 2018-07-23 03:21:03
+-- Generation Time: 2018-07-24 23:15:47
 -- 服务器版本： 5.7.19
 -- PHP Version: 7.0.23
 
@@ -21,6 +21,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `wx_shop`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) COLLATE utf8_bin NOT NULL,
+  `passwd` char(32) COLLATE utf8_bin NOT NULL,
+  `delete_time` int(11) DEFAULT NULL,
+  `upload_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转存表中的数据 `admin`
+--
+
+INSERT INTO `admin` (`id`, `name`, `passwd`, `delete_time`, `upload_time`) VALUES
+(1, 'admin', 'admin', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -167,6 +190,63 @@ INSERT INTO `theme_goods` (`theme_id`, `goods_id`) VALUES
 (2, 2),
 (2, 1),
 (3, 3);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `openid` varchar(50) COLLATE utf8_bin NOT NULL,
+  `nickname` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+  `comment` varchar(32) COLLATE utf8_bin DEFAULT NULL,
+  `delete_time` int(11) DEFAULT NULL,
+  `create_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `openid_3` (`openid`),
+  KEY `openid` (`openid`),
+  KEY `openid_2` (`openid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转存表中的数据 `user`
+--
+
+INSERT INTO `user` (`id`, `openid`, `nickname`, `comment`, `delete_time`, `create_time`, `update_time`) VALUES
+(1, 'ofcLS5JPS2FsFPhEN85X3_f_YM6Y', NULL, NULL, NULL, 1532384428, 1532384428);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `user_address`
+--
+
+DROP TABLE IF EXISTS `user_address`;
+CREATE TABLE IF NOT EXISTS `user_address` (
+  `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uid` smallint(5) UNSIGNED NOT NULL,
+  `name` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '收货人',
+  `mobile` varchar(20) COLLATE utf8_bin NOT NULL,
+  `province` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '省',
+  `city` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '市',
+  `country` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '区',
+  `detail` varchar(128) COLLATE utf8_bin NOT NULL COMMENT '具体地址',
+  `delete_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转存表中的数据 `user_address`
+--
+
+INSERT INTO `user_address` (`id`, `uid`, `name`, `mobile`, `province`, `city`, `country`, `detail`, `delete_time`, `update_time`) VALUES
+(2, 1, '张三', '15858581158', '湖南', '怀化', '鹤城区', '火车南站', NULL, 1532450623),
+(3, 1, '李四', '15858581158', '广东', '东莞', '塘厦', '玉壶春', NULL, 1532451876);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

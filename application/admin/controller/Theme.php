@@ -1,23 +1,22 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
 use \app\common\model\Theme as ThemeModel;
 
-class Theme extends Controller{
+class Theme extends Base {
 	/**
-	 * modify the particular theme 
+	 * modify the particular theme
 	 * @return [type]
 	 */
-	public function modifyTheme(){
+	public function modifyTheme() {
 		$validate = new \app\common\validate\Theme;
 		$model = new ThemeModel();
-		$result = $validate -> goCheck();
-		if($result === true){
-			return $model -> edit();
+		$result = $validate->goCheck();
+		if ($result === true) {
+			return $model->edit();
 		}
 	}
 	/**
-	 * upload theme image 
+	 * upload theme image
 	 * @return [type] [description]
 	 */
 	public function upload() {

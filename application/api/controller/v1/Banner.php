@@ -2,7 +2,7 @@
 namespace app\api\controller\v1;
 use app\common\model\Banner as Model;
 use think\Controller;
-use think\Validate;
+use think\facade\Validate;
 
 class Banner extends Controller {
 
