@@ -1,6 +1,8 @@
 <?php
 namespace app\common\service;
 use app\common\model\Goods;
+use app\common\model\UserAddress;
+use app\common\model\Order as OrderModel;
 
 class Order {
 //用户下单流程：
@@ -23,8 +25,21 @@ class Order {
 		$this->uid = $uid;
 		$this->o_goods = $o_goods;
 		$this->goods = $this->getGoodsByOrder($o_goods);
+		//检测订单是否合法
 		$status = $this->getOrderStatus();
-		return $status;
+		if ($status['pass'] == false) {
+			//保持返回数据一致性
+			$status['order_id'] = -1;
+			return $status;
+		}
+		//生成快照信息
+		$orderSnap = $this->snapOrder($status);
+
+		//生成订单，保存数据库，返回订单记录id
+		$orderSnap['order_no'] = makeOrderNo();
+		$orderSnap['uid'] = $this->uid;
+		$orderSnap['status'] = config('wx.unpaid');
+		OrderModel::
 	}
 
 	//根据商品id数组 查找具体商品集合
@@ -40,6 +55,7 @@ class Order {
 		$status = [
 			'pass' => true,
 			'amount' => 0,
+			'count' => 0,
 			'itemInfo' => [],
 		];
 		foreach ($this->o_goods as $o_goods_item) {
@@ -48,6 +64,7 @@ class Order {
 				$status['pass'] = false;
 			}
 			$status['amount'] += $singleGoogsStat['total'];
+			$status['count'] += $singleGoogsStat['count'];
 			array_push($status['itemInfo'], $singleGoogsStat);
 		}
 		return $status;
@@ -59,6 +76,7 @@ class Order {
 			'haveStock' => true,
 			'count' => 0,
 			'name' => null,
+			'img' => '',
 			'total' => 0,
 		];
 		$index = -1;
@@ -73,6 +91,7 @@ class Order {
 		$goodsItem = $goods[$index];
 		$status['id'] = $goodsItem['id'];
 		$status['name'] = $goodsItem['name'];
+		$status['img'] = $goodsItem['img'];
 		$status['count'] = $o_goods_item['quantity'];
 		$status['total'] = $o_goods_item['quantity'] * $goodsItem['price'];
 		if ($goodsItem['stock'] - $o_goods_item['quantity'] < 0) {
@@ -80,5 +99,35 @@ class Order {
 		}
 		return $status;
 	}
+	//生成订单快照
+	private function snapOrder($status) {
+		$snap = [
+			'total_count' => 0,
+			'total_price' => 0,
+			'snap_img' => '',
+			'snap_name' => '',
+			'snap_address' => null,
+			'snap_goods' => null,
+		];
+
+		$snap['total_count'] = $status['count'];
+		$snap['total_price'] = $status['amount'];
+		$snap['snap_img'] = $status['itemInfo'][0]['img'];
+		$snap['snap_name'] = $status['name'][0]['name'];
+		$snap['snap_goods'] = json_encode($status['itemInfo']);
+		$snap['snap_address'] = json_decode(UserAddress::where('uid', $this->uid)->find()->toArray());
+
+		return $snap;
+	}
+	//生成订单号
+    public static function makeOrderNo()
+    {
+        $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+        $orderSn =
+            $yCode[intval(date('Y')) - 2017] . strtoupper(dechex(date('m'))) . date(
+                'd') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf(
+                '%02d', rand(0, 99));
+        return $orderSn;
+    }
 
 }

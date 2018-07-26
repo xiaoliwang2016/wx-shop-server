@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 2018-07-24 23:15:47
+-- Generation Time: 2018-07-26 17:25:35
 -- 服务器版本： 5.7.19
 -- PHP Version: 7.0.23
 
@@ -136,6 +136,49 @@ INSERT INTO `goods` (`id`, `name`, `price`, `stock`, `category_id`, `summary`, `
 (6, '夏日芒果  3个', '10.00', 199, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532199059, NULL),
 (7, '芹菜  半斤', '3.00', 50, 2, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\7302a99ab4aeed37d560324e84dc9464.png', '产地&生产日期&重量', '东北&2018-06-01&250g', 1532199165, NULL),
 (8, '芹菜  半斤', '3.00', 50, 2, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\7302a99ab4aeed37d560324e84dc9464.png', '产地&生产日期&重量', '东北&2018-06-01&250g', 1532199166, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_no` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '订单号',
+  `uid` smallint(6) NOT NULL COMMENT '外键，用户id，注意并不是openid',
+  `total_count` smallint(6) NOT NULL COMMENT '总数量',
+  `total_price` decimal(6,2) NOT NULL COMMENT '总金额',
+  `status` tinyint(4) NOT NULL COMMENT '1:未支付， 2：已支付，3：已发货 , 4: 已支付，但库存不足',
+  `snap_img` varchar(255) COLLATE utf8_bin NOT NULL COMMENT '订单主页显示图片',
+  `snap_name` varchar(80) COLLATE utf8_bin NOT NULL COMMENT '订单名称',
+  `snap_address` varchar(500) COLLATE utf8_bin NOT NULL COMMENT '地址快照（json）',
+  `snap_goods` text COLLATE utf8_bin NOT NULL COMMENT '订单商品快照（json）',
+  `prepay_id` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '订单微信支付的预订单id（用于发送模板消息）',
+  `creat_time` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  `delete_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_no` (`order_no`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `order_goods`
+--
+
+DROP TABLE IF EXISTS `order_goods`;
+CREATE TABLE IF NOT EXISTS `order_goods` (
+  `order_id` int(11) NOT NULL,
+  `goods_id` int(11) NOT NULL,
+  `count` smallint(6) NOT NULL,
+  `update_time` int(11) DEFAULT NULL,
+  `delete_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`order_id`,`goods_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
