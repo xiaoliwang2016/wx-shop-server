@@ -7,9 +7,12 @@ use app\common\service\Token;
 use think\Controller;
 
 class Order extends Controller {
+
 	public function place() {
 		$identity = Token::getCurrentIdentity();
 		$orderInfo = $this->request->param('list');
-		return (new OrderService())->placeOrder($identity['uid'], $orderInfo);
+		$status = (new OrderService())->placeOrder($identity['uid'], $orderInfo);
+		return json($status);
 	}
+	
 }
