@@ -28,7 +28,7 @@ class Theme extends Controller{
 		if(!cache('theme_'.$theme_id)){
 			$list = ThemeModel::where('id',$theme_id)->field('id,img,name,head_img')->find()->toArray();
 			$theme_goods = db('theme_goods')->where('theme_id',$theme_id)->select();
-			$list['goods'] = db('goods')->where('id','in',Array2Array($theme_goods,'goods_id'))->field('id,name,img')->select();
+			$list['goods'] = db('goods')->where('id','in',Array2Array($theme_goods,'goods_id'))->field('id,name,img,price')->select();
 			cache('theme_'.$theme_id,$list);
 		}
 		return ReturnMsg('1001',cache('theme_'.$theme_id));

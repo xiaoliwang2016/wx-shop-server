@@ -18,7 +18,7 @@ class Banner extends Controller {
 		if ($validate->check(['id' => $banner_type])) {
 			if(!cache('banner_'.$banner_type)){
 				$list = Model::where('banner_type', $banner_type)->limit(5)->select()->toArray();
-				cache('banner_'.$banner_type,$list)
+				cache('banner_'.$banner_type,$list);
 			}
 			return ReturnMsg('1001', cache('banner_'.$banner_type));
 		}

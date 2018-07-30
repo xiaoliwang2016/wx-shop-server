@@ -9,7 +9,7 @@ class Goods extends Controller{
 	 */
 	public function getGoodsByDate(){
 		if(!cache('newest_goods')){
-			$list = GoodsModel::where(true)->limit(5)->order('update_time','desc')->column('id,name,img');
+			$list = GoodsModel::where(true)->limit(5)->order('update_time','desc')->field('id,name,img,price')->select()->toArray();
 			cache('newest_goods',$list);
 		}
 		return ReturnMsg('1001', cache('newest_goods'));
@@ -22,7 +22,7 @@ class Goods extends Controller{
 		if(!is_numeric($id) || $id < 1){
 			throw new \app\common\exception\BaseException(['errorCode'=>'10000','code'=>'400','msg'=>'参数错误']);
 		}
-		$data = GoodsModel::where('id',$id)->find()->toArray();
+		$data = GoodsModel::where('id',$id)->find();
 		return ReturnMsg('1001', $data);
 	}
 
