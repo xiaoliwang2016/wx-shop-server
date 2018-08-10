@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 2018-07-26 17:25:35
+-- Generation Time: 2018-08-10 22:42:57
 -- 服务器版本： 5.7.19
 -- PHP Version: 7.0.23
 
@@ -68,9 +68,9 @@ CREATE TABLE IF NOT EXISTS `banner` (
 --
 
 INSERT INTO `banner` (`id`, `banner_type`, `type`, `type_id`, `img`, `update_time`, `delete_time`) VALUES
-(1, 1, 1, 1, 'wx.shop.com/uploads/images/banner/20180721\\\\4001856b2e49ad653bf9a4a10324284a.png', 1532145431, NULL),
-(2, 1, 1, 2, 'wx.shop.com/uploads/images/banner/20180721\\\\ff550e087f706c4e7eac4bf6fb31391c.png', 1532145465, NULL),
-(3, 1, 1, 3, 'wx.shop.com/uploads/images/banner/20180721\\\\a31f5c6b44737a13dd4fccba64e5a4ba.png', 1532145481, NULL),
+(1, 1, 1, 5, 'http://wx.shop.com/uploads/images/banner/20180721\\\\4001856b2e49ad653bf9a4a10324284a.png', 1532145431, NULL),
+(2, 1, 1, 6, 'http://wx.shop.com/uploads/images/banner/20180721\\\\ff550e087f706c4e7eac4bf6fb31391c.png', 1532145465, NULL),
+(3, 1, 1, 7, 'http://wx.shop.com/uploads/images/banner/20180721\\\\a31f5c6b44737a13dd4fccba64e5a4ba.png', 1532145481, NULL),
 (4, 2, 1, 4, 'wx.shop.com/uploads/images/banner/20180721\\\\a31f5c6b44737a13dd4fccba64e5a4ba.png', 1532145489, NULL);
 
 -- --------------------------------------------------------
@@ -129,12 +129,12 @@ CREATE TABLE IF NOT EXISTS `goods` (
 --
 
 INSERT INTO `goods` (`id`, `name`, `price`, `stock`, `category_id`, `summary`, `img`, `property_name`, `property_value`, `update_time`, `delete_time`) VALUES
-(2, '夏日芒果  3个', '10.00', 199, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532199029, NULL),
+(2, '夏日芒果  3个', '10.00', 195, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532703996, NULL),
 (3, '夏日芒果  3个', '10.00', 199, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532199058, NULL),
 (4, '夏日芒果  3个', '10.00', 199, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532199059, NULL),
 (5, '夏日芒果  3个', '10.00', 199, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532199059, NULL),
 (6, '夏日芒果  3个', '10.00', 199, 1, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '产地&生产日期&单个重量', '海南&2018-06-01&500g', 1532199059, NULL),
-(7, '芹菜  半斤', '3.00', 50, 2, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\7302a99ab4aeed37d560324e84dc9464.png', '产地&生产日期&重量', '东北&2018-06-01&250g', 1532199165, NULL),
+(7, '芹菜  半斤', '3.00', 45, 2, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\7302a99ab4aeed37d560324e84dc9464.png', '产地&生产日期&重量', '东北&2018-06-01&250g', 1532703996, NULL),
 (8, '芹菜  半斤', '3.00', 50, 2, NULL, 'http://wx.shop.com/uploads/images/goods/20180722\\\\7302a99ab4aeed37d560324e84dc9464.png', '产地&生产日期&重量', '东北&2018-06-01&250g', 1532199166, NULL);
 
 -- --------------------------------------------------------
@@ -156,13 +156,21 @@ CREATE TABLE IF NOT EXISTS `order` (
   `snap_address` varchar(500) COLLATE utf8_bin NOT NULL COMMENT '地址快照（json）',
   `snap_goods` text COLLATE utf8_bin NOT NULL COMMENT '订单商品快照（json）',
   `prepay_id` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '订单微信支付的预订单id（用于发送模板消息）',
-  `creat_time` int(11) DEFAULT NULL,
   `update_time` int(11) DEFAULT NULL,
   `delete_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_no` (`order_no`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转存表中的数据 `order`
+--
+
+INSERT INTO `order` (`id`, `order_no`, `uid`, `total_count`, `total_price`, `status`, `snap_img`, `snap_name`, `snap_address`, `snap_goods`, `prepay_id`, `update_time`, `delete_time`) VALUES
+(1, 'B727018750154671', 1, 6, '39.00', 1, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '夏日芒果  3个', '{\"id\":2,\"uid\":1,\"name\":\"\\u5f20\\u4e09\",\"mobile\":\"15858581158\",\"province\":\"\\u6e56\\u5357\",\"city\":\"\\u6000\\u5316\",\"country\":\"\\u9e64\\u57ce\\u533a\",\"detail\":\"\\u706b\\u8f66\\u5357\\u7ad9\"}', '[{\"id\":2,\"haveStock\":true,\"count\":3,\"name\":\"\\u590f\\u65e5\\u8292\\u679c  3\\u4e2a\",\"img\":\"http:\\/\\/wx.shop.com\\/uploads\\/images\\/goods\\/20180722\\\\\\\\bb4b7ab466390158ee54345955982f5e.png\",\"total\":30},{\"id\":7,\"haveStock\":true,\"count\":3,\"name\":\"\\u82b9\\u83dc  \\u534a\\u65a4\",\"img\":\"http:\\/\\/wx.shop.com\\/uploads\\/images\\/goods\\/20180722\\\\\\\\7302a99ab4aeed37d560324e84dc9464.png\",\"total\":9}]', NULL, 1532701875, NULL),
+(3, 'B727039656170497', 1, 1, '10.00', 1, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '夏日芒果  3个', '{\"id\":2,\"uid\":1,\"name\":\"\\u5f20\\u4e09\",\"mobile\":\"15858581158\",\"province\":\"\\u6e56\\u5357\",\"city\":\"\\u6000\\u5316\",\"country\":\"\\u9e64\\u57ce\\u533a\",\"detail\":\"\\u706b\\u8f66\\u5357\\u7ad9\"}', '[{\"id\":2,\"haveStock\":true,\"count\":1,\"name\":\"\\u590f\\u65e5\\u8292\\u679c  3\\u4e2a\",\"img\":\"http:\\/\\/wx.shop.com\\/uploads\\/images\\/goods\\/20180722\\\\\\\\bb4b7ab466390158ee54345955982f5e.png\",\"total\":10}]', NULL, 1532703965, NULL),
+(4, 'B727039961257847', 1, 8, '45.00', 1, 'http://wx.shop.com/uploads/images/goods/20180722\\\\bb4b7ab466390158ee54345955982f5e.png', '夏日芒果  3个', '{\"id\":2,\"uid\":1,\"name\":\"\\u5f20\\u4e09\",\"mobile\":\"15858581158\",\"province\":\"\\u6e56\\u5357\",\"city\":\"\\u6000\\u5316\",\"country\":\"\\u9e64\\u57ce\\u533a\",\"detail\":\"\\u706b\\u8f66\\u5357\\u7ad9\"}', '[{\"id\":2,\"haveStock\":true,\"count\":3,\"name\":\"\\u590f\\u65e5\\u8292\\u679c  3\\u4e2a\",\"img\":\"http:\\/\\/wx.shop.com\\/uploads\\/images\\/goods\\/20180722\\\\\\\\bb4b7ab466390158ee54345955982f5e.png\",\"total\":30},{\"id\":7,\"haveStock\":true,\"count\":5,\"name\":\"\\u82b9\\u83dc  \\u534a\\u65a4\",\"img\":\"http:\\/\\/wx.shop.com\\/uploads\\/images\\/goods\\/20180722\\\\\\\\7302a99ab4aeed37d560324e84dc9464.png\",\"total\":15}]', NULL, 1532703996, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,6 +187,17 @@ CREATE TABLE IF NOT EXISTS `order_goods` (
   `delete_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`order_id`,`goods_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- 转存表中的数据 `order_goods`
+--
+
+INSERT INTO `order_goods` (`order_id`, `goods_id`, `count`, `update_time`, `delete_time`) VALUES
+(1, 2, 3, NULL, NULL),
+(1, 7, 3, NULL, NULL),
+(3, 2, 1, NULL, NULL),
+(4, 2, 3, NULL, NULL),
+(4, 7, 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
