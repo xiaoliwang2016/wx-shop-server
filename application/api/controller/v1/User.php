@@ -15,6 +15,6 @@ class User extends Controller {
 		if (!$indentity['uid']) {
 			throw new Exception("获取用户ID错误");
 		}
-		return UserModel::with('address')->where('id', $indentity['uid'])->select();
+		return UserModel::with('address')->where('id', $indentity['uid'])->find();
 	}
 }

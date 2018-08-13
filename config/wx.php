@@ -8,7 +8,7 @@ return [
 	// 小程序app_id
 	'app_id' => 'wx0a1d95f443204af2',
 	// 小程序app_secret
-	'app_secret' => '26abed478ed6f563eba1433ccde5aec3',
+	'app_secret' => '7c81a3580cf20f2d21ca03740d7a59c7',
 
 	// 微信使用code换取用户openid及session_key的url地址
 	'login_url' => "https://api.weixin.qq.com/sns/jscode2session?" .

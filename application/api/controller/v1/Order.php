@@ -11,8 +11,9 @@ class Order extends Controller {
 	public function place() {
 		$identity = Token::getCurrentIdentity();
 		$orderInfo = $this->request->param('list');
-		$status = (new OrderService())->placeOrder($identity['uid'], $orderInfo);
+		$address_id = $this->request->param('address_id');
+		$status = (new OrderService())->placeOrder($identity['uid'], $orderInfo, $address_id);
 		return json($status);
 	}
-	
+
 }
